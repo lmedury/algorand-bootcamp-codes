@@ -27,6 +27,7 @@ class AlgoService {
                 return {success:true};
             }
         } catch (err) {
+            console.log(err);
             return {succes:false, err:err.message};
         }
 

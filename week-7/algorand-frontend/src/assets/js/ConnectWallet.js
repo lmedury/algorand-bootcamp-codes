@@ -8,7 +8,7 @@ class WalletConnectClass {
 
     static async AlgoSignerConnect(ledger) {
         try{
-            if(!ledger) ledger = process.env.REACT_APP_NETWORK;
+            if(!ledger) ledger = 'TestNet';
             if(window.AlgoSigner !== undefined) {
 
                 await window.AlgoSigner.connect();
@@ -16,11 +16,6 @@ class WalletConnectClass {
                     ledger: ledger
                 });
                 
-                if(accounts.length > 0) {
-                    if(!localStorage.getItem('address') || localStorage.getItem('address') === '' || localStorage.getItem('address') === undefined || localStorage.getItem('address') === 'null') {
-                        localStorage.setItem('address', accounts[0].address);
-                    }
-                }
                 return accounts;
 
             } else {
@@ -36,11 +31,7 @@ class WalletConnectClass {
         try{
             const myAlgoConnect = new MyAlgoConnect();
             const accounts = await myAlgoConnect.connect();
-            if(accounts.length > 0) {
-                if(!localStorage.getItem('address') || localStorage.getItem('address') === '' || localStorage.getItem('address') === undefined || localStorage.getItem('address') === 'null') {
-                    localStorage.setItem('address', accounts[0].address);
-                }
-            }
+            
             return accounts;
         } catch (err) {
             return []
@@ -60,11 +51,6 @@ class WalletConnectClass {
             const connectorInfo = await connector.connect();
             
             accounts = connectorInfo.accounts;
-            if(accounts.length > 0) {
-                if(!localStorage.getItem('address') || localStorage.getItem('address') === '' || localStorage.getItem('address') === undefined || localStorage.getItem('address') === 'null') {
-                    localStorage.setItem('address', accounts[0]);
-                }
-            }
             
             if (!connector.connected) {
                 connector.createSession();
@@ -75,11 +61,7 @@ class WalletConnectClass {
                     throw error;
                 }
                 accounts = payload.params[0];
-                if(accounts.length > 0) {
-                    if(!localStorage.getItem('address') || localStorage.getItem('address') === '' || localStorage.getItem('address') === undefined || localStorage.getItem('address') === 'null') {
-                        localStorage.setItem('address', accounts[0]);
-                    }
-                }
+                
             });
 
             connector.on("session_update", (error, payload) => {
@@ -100,32 +82,6 @@ class WalletConnectClass {
         }
     }
 
-    static disconnectWallet = () => {
-        let wallet = localStorage.getItem('wallet');
-        localStorage.removeItem('wallet');
-        localStorage.removeItem('address');
-        try{
-            const connector = new WalletConnect({
-                bridge: "https://bridge.walletconnect.org", // Required
-                qrcodeModal: QRCodeModal,
-            });
-            
-            if(connector && wallet === 'pera') connector.killSession();
-        } catch (err) {
-
-        }
-    }
-
-    static getConnectedWallet = () => {
-        try{
-            let address = localStorage.getItem('address');
-            let wallet = localStorage.getItem('wallet');
-            if(address === 'null' || address === 'undefined') return ({wallet: null, address:null})
-            return ({wallet: wallet, address:address});
-        } catch (err) {
-            return false;
-        } 
-    }
 }
 
 export default WalletConnectClass;

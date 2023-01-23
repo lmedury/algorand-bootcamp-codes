@@ -9,8 +9,7 @@ window.Buffer = window.Buffer || require("buffer").Buffer;
 
 class Transactions {
 
-    static async signTransactions(transactions, ignoreTransactionIndex, signedTransaction){
-        const wallet = localStorage.getItem('wallet');
+    static async signTransactions(transactions, wallet, ignoreTransactionIndex, signedTransaction){
         if(wallet === 'pera') {
             const connector = new WalletConnect({
                 bridge: "https://bridge.walletconnect.org", // Required
