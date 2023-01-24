@@ -22,13 +22,13 @@ class Transactions {
                 if(ignoreTransactionIndex === index) {
                     return {
                         txn: encodedTxn,
-                        message: 'Signing transactions for ANS .algo name registration',
+                        message: 'Signing a transaction here',
                         signers: [],
                     };
                 } else {
                     return {
                         txn: encodedTxn,
-                        message: 'Signing transactions for ANS .algo name registration'
+                        message: 'Signing a transaction here'
                     };
                 }
                 
